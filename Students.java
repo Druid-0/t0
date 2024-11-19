@@ -1,3 +1,5 @@
+// версия 1 мейн
+
 import java.util.Scanner;
 
 class Student {
