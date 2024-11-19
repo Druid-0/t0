@@ -1,12 +1,13 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Student {
     String name;
-    int misd;  // Missed Days
-    int mish;  // Missed Hours
-    int pris;  // Penalties (Posashenia)
+    int misd; // Missed Days
+    int mish; // Missed Hours
+    int pris; // Attendance
 
-    // Constructor
     public Student(String name, int misd, int mish, int pris) {
         this.name = name;
         this.misd = misd;
@@ -14,84 +15,65 @@ class Student {
         this.pris = pris;
     }
 
-    // Method to display student info
     public void displayInfo() {
         System.out.println("Student Name: " + name);
         System.out.println("Missed Days: " + misd);
         System.out.println("Missed Hours: " + mish);
-        System.out.println("Penalties: " + pris);
+        System.out.println("Attendance: " + pris);
         System.out.println();
-    }
-}
-
-// Subclass 'Stud' extending 'Student'
-class Stud extends Student {
-    String extraInfo;
-
-    // Constructor for 'Stud' subclass
-    public Stud(String name, int misd, int mish, int pris, String extraInfo) {
-        // Call the constructor of the parent class 'Student'
-        super(name, misd, mish, pris);
-        this.extraInfo = extraInfo;
-    }
-
-    // Overridden method to display extended info
-    @Override
-    public void displayInfo() {
-        super.displayInfo();  // Call the superclass displayInfo method
-        System.out.println("Extra Information: " + extraInfo);
     }
 }
 
 public class Students {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
+        ArrayList<Student> studentList = new ArrayList<>();
 
-        // Get input for Student
-        System.out.print("Enter student name: ");
-        String studentName = sc.nextLine();
+        while (true) {
+            try {
+                System.out.println("\nEnter details for a new student:");
+                System.out.print("Name: ");
+                String name = sc.nextLine();
 
-        System.out.print("Enter missed days: ");
-        int missedDays = sc.nextInt();
+                System.out.print("Missed Days: ");
+                int misd = sc.nextInt();
+                if (misd < 0) throw new IllegalArgumentException("Missed days cannot be negative");
 
-        System.out.print("Enter missed hours: ");
-        int missedHours = sc.nextInt();
+                System.out.print("Missed Hours: ");
+                int mish = sc.nextInt();
+                if (mish < 0) throw new IllegalArgumentException("Missed hours cannot be negative");
 
-        System.out.print("Enter penalties (posashenia): ");
-        int penalties = sc.nextInt();
+                System.out.print("Attendance: ");
+                int pris = sc.nextInt();
+                if (pris < 0) throw new IllegalArgumentException("Attendance cannot be negative");
+                
+                sc.nextLine(); // Consume the newline
 
-        // Create a Student object with the entered data
-        Student student1 = new Student(studentName, missedDays, missedHours, penalties);
-        student1.displayInfo();  // Display Student info
+                studentList.add(new Student(name, misd, mish, pris));
 
-        // To consume the remaining newline character after nextInt()
-        sc.nextLine();
+                System.out.print("Do you want to add another student? (yes/no): ");
+                String response = sc.nextLine();
+                if (response.equalsIgnoreCase("no")) {
+                    break;
+                }
 
-        // Get input for Stud (Subclass of Student)
-        System.out.print("Enter name for extra info (Stud): ");
-        String studName = sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter valid numbers for numerical fields");
+                sc.nextLine(); // Clear the invalid input
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+                sc.nextLine(); // Clear the invalid input
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred. Please try again");
+                sc.nextLine(); // Clear the invalid input
+            }
+        }
 
-        System.out.print("Enter missed days for Stud: ");
-        int studMissedDays = sc.nextInt();
+        System.out.println("\n=== List of Students ===");
+        for (Student student : studentList) {
+            student.displayInfo();
+        }
 
-        System.out.print("Enter missed hours for Stud: ");
-        int studMissedHours = sc.nextInt();
-
-        System.out.print("Enter penalties for Stud: ");
-        int studPenalties = sc.nextInt();
-
-        // To consume the remaining newline character after nextInt()
-        sc.nextLine();
-
-        System.out.print("Enter extra information for Stud: ");
-        String extraInfo = sc.nextLine();
-
-        // Create a Stud object with the entered data
-        Stud stud1 = new Stud(studName, studMissedDays, studMissedHours, studPenalties, extraInfo);
-        stud1.displayInfo();  // Display Stud info
-
-        // Close the scanner to avoid resource leak
         sc.close();
     }
 }
