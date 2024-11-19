@@ -6,7 +6,7 @@ class Student {
     String name;
     int misd; // Missed Days
     int mish; // Missed Hours
-    int pris; // Attendance
+    int pris; // Prisudstviya
 
     public Student(String name, int misd, int mish, int pris) {
         this.name = name;
@@ -47,7 +47,7 @@ public class Students {
                 int pris = sc.nextInt();
                 if (pris < 0) throw new IllegalArgumentException("Attendance cannot be negative");
                 
-                sc.nextLine(); // Consume the newline
+                sc.nextLine();
 
                 studentList.add(new Student(name, misd, mish, pris));
 
@@ -59,17 +59,17 @@ public class Students {
 
             } catch (InputMismatchException e) {
                 System.out.println("Please enter valid numbers for numerical fields");
-                sc.nextLine(); // Clear the invalid input
+                sc.nextLine(); 
             } catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
-                sc.nextLine(); // Clear the invalid input
+                sc.nextLine(); 
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred. Please try again");
-                sc.nextLine(); // Clear the invalid input
+                sc.nextLine(); 
             }
         }
 
-        System.out.println("\n=== List of Students ===");
+        System.out.println("\n List of Students ");
         for (Student student : studentList) {
             student.displayInfo();
         }
