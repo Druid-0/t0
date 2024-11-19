@@ -1,3 +1,5 @@
+// версия 2 с интерфейсом
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
